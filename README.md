@@ -13,7 +13,17 @@ Math.E.introspect().exponent;      //  "10000000000"
 
 Interactively explore at [http://dherman.github.com/float.js](http://dherman.github.com/float.js).
 
-## License
+### How it works
+
+[Internally](https://github.com/dherman/float.js/blob/master/float.js), this puts the number in a single-element `Float64Array` [typed array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays) and gets its `buffer` to read the value’s raw bits:
+
+```javascript
+(new Float64Array([n])).buffer
+```
+
+Then it converts that buffer to a string of `"1"`s and `"0"`s by viewing the buffer as a `Uint8Array` and mapping each viewed byte to a binary string with `.toString(2)`. Finally, it creates properties like `exponent` and `mantissa` by using `[]` array indexing, `.substring`, and `.slice` to extract the relevant bits.
+
+### License
 
 Copyright © 2012 Dave Herman
 
